@@ -77,7 +77,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-slate-50">
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-sky-500 to-blue-600 text-white p-6 shadow">
+      <div className="bg-linear-to-r from-sky-500 to-blue-600 text-white p-6 shadow">
         <div className="max-w-5xl mx-auto">
           <p className="text-sky-200 text-xs tracking-widest uppercase mb-1">Admin</p>
           <h1 className="text-2xl font-light">Christening Guest Manager</h1>

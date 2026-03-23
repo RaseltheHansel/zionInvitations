@@ -29,7 +29,7 @@ export default function InvitationModal({ guestName, token, rsvp, onClose }: Pro
       >
 
         {/* Top banner */}
-        <div className="bg-gradient-to-br from-sky-400 to-blue-500 p-8 text-center relative">
+        <div className="bg-linear-to-br from-sky-400 to-blue-500 p-8 text-center relative">
           <button onClick={onClose}
             className="absolute top-4 right-4 text-white/70 hover:text-white text-2xl leading-none">
             ×

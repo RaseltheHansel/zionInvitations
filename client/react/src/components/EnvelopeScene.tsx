@@ -7,10 +7,21 @@ interface Props {
   rsvp:      { status: string } | null;
 }
 
+// ✅ Generate random particles outside component — stable values
+const PARTICLES = Array.from({ length: 12 }, (_, i) => ({
+  width:          Math.random() * 8 + 4,
+  height:         Math.random() * 8 + 4,
+  background:     i % 2 === 0 ? '#93c5fd' : '#bfdbfe',
+  left:           Math.random() * 100,
+  top:            Math.random() * 100,
+  duration:       3 + Math.random() * 4,
+  animationDelay: Math.random() * 3,
+}));
+
 export default function EnvelopeScene({ guestName, token, rsvp }: Props) {
-  const [opened,     setOpened]     = useState(false);
-  const [showModal,  setShowModal]  = useState(false);
-  const [animating,  setAnimating]  = useState(false);
+  const [opened,    setOpened]    = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [animating, setAnimating] = useState(false);
 
   const handleClick = () => {
     if (animating || opened) return;
@@ -23,21 +34,21 @@ export default function EnvelopeScene({ guestName, token, rsvp }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50 flex flex-col items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-b from-sky-50 via-white to-blue-50 flex flex-col items-center justify-center px-4 relative overflow-hidden">
 
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(12)].map((_, i) => (
+        {PARTICLES.map((p, i) => (
           <div key={i}
             className="absolute rounded-full opacity-20"
             style={{
-              width:  `${Math.random() * 8 + 4}px`,
-              height: `${Math.random() * 8 + 4}px`,
-              background: i % 2 === 0 ? '#93c5fd' : '#bfdbfe',
-              left:   `${Math.random() * 100}%`,
-              top:    `${Math.random() * 100}%`,
-              animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 3}s`,
+              width:          `${p.width}px`,
+              height:         `${p.height}px`,
+              background:     p.background,
+              left:           `${p.left}%`,
+              top:            `${p.top}%`,
+              animation:      `float ${p.duration}s ease-in-out infinite`,
+              animationDelay: `${p.animationDelay}s`,
             }}
           />
         ))}
@@ -65,14 +76,13 @@ export default function EnvelopeScene({ guestName, token, rsvp }: Props) {
         {/* Envelope body */}
         <div className="absolute inset-0 bg-white rounded-lg shadow-2xl border border-blue-100 overflow-hidden">
 
-          {/* Envelope bottom triangle */}
+          {/* Bottom triangle */}
           <div className="absolute bottom-0 left-0 right-0 h-28 overflow-hidden">
             <div className="absolute bottom-0 left-0 right-0"
               style={{
-                width: 0,
-                height: 0,
-                borderLeft: '160px solid transparent',
-                borderRight: '160px solid transparent',
+                width: 0, height: 0,
+                borderLeft:   '160px solid transparent',
+                borderRight:  '160px solid transparent',
                 borderBottom: '112px solid #dbeafe',
               }}
             />
@@ -82,9 +92,9 @@ export default function EnvelopeScene({ guestName, token, rsvp }: Props) {
           <div className="absolute top-0 bottom-0 left-0 overflow-hidden">
             <div style={{
               width: 0, height: 0,
-              borderTop: '110px solid transparent',
+              borderTop:    '110px solid transparent',
               borderBottom: '110px solid transparent',
-              borderLeft: '160px solid #eff6ff',
+              borderLeft:   '160px solid #eff6ff',
             }} />
           </div>
 
@@ -92,16 +102,16 @@ export default function EnvelopeScene({ guestName, token, rsvp }: Props) {
           <div className="absolute top-0 bottom-0 right-0 overflow-hidden">
             <div style={{
               width: 0, height: 0,
-              borderTop: '110px solid transparent',
+              borderTop:    '110px solid transparent',
               borderBottom: '110px solid transparent',
-              borderRight: '160px solid #dbeafe',
+              borderRight:  '160px solid #dbeafe',
             }} />
           </div>
 
           {/* Seal */}
           {!opened && (
             <div className="absolute inset-0 flex items-center justify-center z-20">
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-sky-400 to-blue-500
+              <div className="w-14 h-14 rounded-full bg-linear-to-br from-sky-400 to-blue-500
                 flex items-center justify-center shadow-lg border-2 border-white
                 transition-all duration-300">
                 <span className="text-white text-xl">✝</span>
@@ -110,18 +120,18 @@ export default function EnvelopeScene({ guestName, token, rsvp }: Props) {
           )}
         </div>
 
-        {/* Top flap — animates open */}
+        {/* Top flap */}
         <div
           className="absolute top-0 left-0 right-0 z-30 origin-top transition-transform"
           style={{
-            height: '110px',
-            clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
-            background: 'linear-gradient(160deg, #bfdbfe 0%, #93c5fd 100%)',
-            transform: opened ? 'rotateX(-180deg)' : 'rotateX(0deg)',
-            transitionDuration: '0.8s',
-            transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            transformStyle: 'preserve-3d',
-            perspective: '600px',
+            height:                  '110px',
+            clipPath:                'polygon(0 0, 100% 0, 50% 100%)',
+            background:              'linear-gradient(160deg, #bfdbfe 0%, #93c5fd 100%)',
+            transform:               opened ? 'rotateX(-180deg)' : 'rotateX(0deg)',
+            transitionDuration:      '0.8s',
+            transitionTimingFunction:'cubic-bezier(0.4, 0, 0.2, 1)',
+            transformStyle:          'preserve-3d',
+            perspective:             '600px',
           }}
         />
 
@@ -131,10 +141,10 @@ export default function EnvelopeScene({ guestName, token, rsvp }: Props) {
             className="absolute left-4 right-4 bg-white rounded shadow-lg z-20
               flex items-center justify-center border border-blue-100"
             style={{
-              height: '60px',
-              bottom: '20px',
+              height:    '60px',
+              bottom:    '20px',
               animation: 'riseCard 0.7s 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards',
-              opacity: 0,
+              opacity:   0,
               transform: 'translateY(0)',
             }}
           >
@@ -157,7 +167,9 @@ export default function EnvelopeScene({ guestName, token, rsvp }: Props) {
           ${rsvp.status === 'accepted'
             ? 'bg-green-100 text-green-700 border border-green-200'
             : 'bg-red-100 text-red-600 border border-red-200'}`}>
-          {rsvp.status === 'accepted' ? '✓ You have accepted this invitation' : '✗ You have declined this invitation'}
+          {rsvp.status === 'accepted'
+            ? '✓ You have accepted this invitation'
+            : '✗ You have declined this invitation'}
         </div>
       )}
 
