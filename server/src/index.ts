@@ -25,7 +25,7 @@ app.get('/health', (_req, res) => res.status(200).json({ status: 'ok' }));
 const PORT = parseInt(process.env.PORT ?? '5000', 10);
 
 httpServer.listen(PORT, '0.0.0.0', async () => {
-  console.log(`✅ Server running on http://0.0.0.0:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
   await connectDB();
   console.log('🎉 Ready!');
 });
